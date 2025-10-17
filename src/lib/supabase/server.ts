@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 // This function creates a Supabase client configured to read and write
 // the user's session cookies, essential for RLS in Server Components.
 export async function createSupabaseServerClient() {

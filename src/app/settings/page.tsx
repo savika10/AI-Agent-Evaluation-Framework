@@ -1,6 +1,8 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ConfigForm from './config-form';
 
+export const dynamic = 'force-dynamic';
+
 // Fetch the user's config data on the server
 async function getEvaluationConfig() {
   const supabase = createSupabaseServerClient();

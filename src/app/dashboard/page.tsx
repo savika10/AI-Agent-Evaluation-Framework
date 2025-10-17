@@ -4,11 +4,12 @@ import { createSupabaseServiceRoleClient } from '@/lib/supabase/server';
 import DashboardCharts from './dashboard-charts'; // Client component for visualization
 import KpiCard from './kpi-card';
 
+export const dynamic = 'force-dynamic';
+
 // Define the date ranges for KPIs and Trends - FIXED: Use full ISO timestamps
 const TODAY = new Date().toISOString();
 const SEVEN_DAYS_AGO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 const THIRTY_DAYS_AGO = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-
 
 // --- Data Fetching Logic (Server Component) ---
 async function fetchDashboardData() {

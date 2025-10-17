@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Session } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 export default function RootPage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null | undefined>(undefined); // undefined = loading

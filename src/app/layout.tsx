@@ -3,6 +3,8 @@
 // You'll need to define your metadata and imports (like Inter font if used)
 import './globals.css';
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: {
