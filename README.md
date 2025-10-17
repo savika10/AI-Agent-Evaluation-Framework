@@ -58,7 +58,15 @@ CREATE POLICY "User can insert their own evaluations" ON evaluations
 FOR INSERT WITH CHECK (auth.uid() = user_id);
 ```
 
-## Seed Data
+## Seed Data 
+1. Sign Up via the deployed application's /login page to create a user account.
+
+2. Retrieve User ID: Obtain the UUID of the new user from the auth.users table in your Supabase dashboard.
+
+3. Configure Script: Open scripts/seed.ts and replace the placeholder TEST_USER_ID with the actual UUID obtained in Step 2.
+
+4. Execute: Run the following command from your project root. This command uses ts-node to execute the TypeScript script.
+    npm run seed
 
 ### Sample Configuration
 ```sql
