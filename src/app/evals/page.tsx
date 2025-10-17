@@ -8,28 +8,33 @@ interface SearchParams {
 }
 
 async function fetchEvaluations(userId: string, page: number) {
-  const supabase = createSupabaseServerClient(); // supabase is the client object now
+  const supabase = createSupabaseServerClient();
   const offset = (page - 1) * ITEMS_PER_PAGE;
 
-  const query = supabase
+  const query = (await supabase)
     .from('evaluations')
     .select('id, interaction_id, score, latency_ms, flags, created_at, pii_tokens_redacted', { count: 'exact' })
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .range(offset, offset + ITEMS_PER_PAGE - 1);
 
-  const { data, count, error } = await query; // Keep the await here to execute the promise
+  const { data, count, error } = await query;
 
   if (error) console.error("Evaluation List Fetch Error:", error);
 
   return { data: data || [], count: count || 0 };
 }
 
-export default async function EvaluationsListPage({ searchParams }: { searchParams: SearchParams }) {
-  const currentPage = Number(searchParams.page) || 1;
+export default async function EvaluationsListPage({ 
+  searchParams 
+}: { 
+  searchParams: Promise<SearchParams> 
+}) {
+  const resolvedSearchParams = await searchParams;
+  const currentPage = Number(resolvedSearchParams.page) || 1;
   
-  const supabase = createSupabaseServerClient(); // supabase is the client object
-  const { data: { user } } = await supabase.auth.getUser(); 
+  const supabase = createSupabaseServerClient();
+  const { data: { user } } = await (await supabase).auth.getUser(); 
 
   if (!user) return <div className="p-8">Not authenticated.</div>; 
 

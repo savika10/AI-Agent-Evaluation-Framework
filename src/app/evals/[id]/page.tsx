@@ -2,7 +2,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 
 interface DetailPageProps {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }
 
 // Function to simulate PII masking
@@ -36,12 +36,14 @@ async function fetchEvalDetail(evalId: string, userId: string) {
 }
 
 export default async function EvaluationDetailPage({ params }: DetailPageProps) {
+    const { id } = await params;
+    
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) return <div className="p-8">Not authenticated.</div>; 
 
-    const { evalDetail, obfuscatePii } = await fetchEvalDetail(params.id, user.id);
+    const { evalDetail, obfuscatePii } = await fetchEvalDetail(id, user.id);
 
     if (!evalDetail) {
         return <div className="p-8">Evaluation record not found or access denied.</div>;
